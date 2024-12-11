@@ -11,15 +11,15 @@ public class Game {
         char[] chars = toPrint.toCharArray();
         for (int i=0; i < chars.length; i++) {
             System.out.print(chars[i]);
-            try { Thread.sleep(25);} 
-            catch (InterruptedException e) {Thread.currentThread().interrupt();}
+/*             try { Thread.sleep(25);} 
+            catch (InterruptedException e) {Thread.currentThread().interrupt();} */
         }
         System.out.println("");
-        try {
+        /* try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        }
+        } */
     }
 
     public static void main(String[] args) {
@@ -59,11 +59,17 @@ public class Game {
                     printSlow("You can see the following items:");
                     for (Item c : state.room.contents) printSlow(c.name);
                     printSlow("You also notice that this room has doors:");
-                    for (String c : state.room.doors.keySet()) printSlow(c);
+                    for (String c : state.room.doors.keySet()) {
+                        if ((!state.HoleMade && c.equals("blown open grate")) || (state.HoleMade && c.equals("locked grate")))
+                        continue;
+                        printSlow(c);
+                    }
                     break;
                 case 2:
                     printSlow("Which door?");
                     String door = myObj.nextLine();
+                    if (door.equals("locked grate")) 
+                    {printSlow("The Locked Grate appears to be locked"); break;}
                     try {
                         String rtemp = state.room.doors.get(door);
                         state.room = state.rooms.get(rtemp);
@@ -75,6 +81,10 @@ public class Game {
                 case 3:
                     printSlow("Which item?");
                     itemp = myObj.nextLine();
+                    if(itemp.equals("cockatrice") && state.room.contents.contains(state.items.get("cockatrice"))){
+                        System.out.println("You poked it and pissed it off");
+                        state.isEnemy = true;
+                    }
                     try {
                         Item item = state.items.get(itemp);
                         state.room.contents.remove(item);
@@ -101,6 +111,14 @@ public class Game {
                                 state.inventory.remove(item);
                                 state.room.contents.add(item);
                                 state.rooms.put(state.room.name, state.room);
+                            } else if (state.room == state.rooms.get("Closet") && item.action.equals("key")){
+                                state.HoleMade = true;
+                                System.err.println("After you swing the key around it floats up into the air and shoots a fireball at the grate! The grate is now open! The key has vanished.");
+                                state.inventory.remove(item);
+                            } else if (item.action.equals("heal")) {
+                                state.health += ((Healing)item).heal();
+                            } else if (item.action.equals("attack")) {
+                                if (state.isEnemy) state.enemy_health -= ((Weapon)item).attack();
                             }
                         }
                         else {

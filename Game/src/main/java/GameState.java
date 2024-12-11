@@ -11,9 +11,24 @@ public class GameState {
     List<Item> inventory = new ArrayList<Item>();
     Map<String, Room> rooms; // global list of rooms
     Map<String, Item> items; // global list of known items
+    boolean HoleMade = false;
+    int health = 100;
+    int enemy_health;
+    boolean isEnemy = false;
 
     // update state and check for winning condition
     public String update() {
+        if(isEnemy){
+            
+        }
+        if (rooms.get("End Room") == room){
+            finished = true;
+            String finaltext =  """
+                                after falling through the grate you find yourself back in the basement!
+                                When you look up you see there is no hole to be found.
+                                """;
+            return finaltext;
+        }
         if (room.contents.contains(items.get("poison frog")) &&
             room.contents.contains(items.get("book")) ){
             finished = true;
@@ -32,11 +47,13 @@ public class GameState {
     public GameState(String name) {
         this.name = name;
         finished = false;
+        HoleMade = false;
         LoadYAML yl = new LoadYAML();
         rooms = yl.rooms;
         items = yl.items;
         room = rooms.get("Starting Room");
         visited.put(room, true);
         inventory.add(items.get("book"));
+        
     }
 }

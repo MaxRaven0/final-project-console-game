@@ -2,7 +2,23 @@
   contents: [poison frog]
   doors:
       green: "Closet"
+      red: "Panic Room"
+      murky: "Apothecary"
 "Closet":
   contents: [broom, mop, bucket, poster]
   doors:
       green: "Starting Room"
+      blown open grate: "End Room"
+      locked grate: ""
+"End Room":
+  contents: []
+  doors:
+      '': ''
+"Panic Room":
+  contents: [key, excalibur]
+  doors:
+      red: "Starting Room"
+"Apothecary":
+  contents: [health potion, health potion, health potion]
+  doors:
+      murky: "Starting Room"

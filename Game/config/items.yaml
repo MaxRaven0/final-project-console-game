@@ -3,7 +3,7 @@ excalibur:
   description: "Ye sword of olde"
   use:
       text: "You slash with the sword."
-      action: "null"
+      action: "attack"
   min-damage: 1
   max-damage: 10
 poison frog:
@@ -14,6 +14,20 @@ poison frog:
       action: "drop"
   min-damage: 2
   max-damage: 4
+cockatrice:
+  type: [Animal]
+  description: "Hello"
+  use:
+    text: "bam"
+    action: "wam"
+  min-damage: 10
+  max-damage: 20
+key:
+  type: [Key]
+  description: "It's for removing barriers"
+  use:
+      text: "You swing it arround your finger a little bit"
+      action: "key"
 broom:
   type: [Item]
   description: "It's for sweeping."
@@ -44,3 +58,11 @@ book:
   use:
       text: "You place the book gently on the floor."
       action: "drop"
+health potion:
+  type: [Healing]
+  description: "smells medicinal"
+  use:
+      text: "you slurp it down"
+      action: "heal"
+  min-health: 10
+  max-health: 20
